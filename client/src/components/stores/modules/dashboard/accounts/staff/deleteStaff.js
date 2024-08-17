@@ -2,7 +2,7 @@
 
 import { defineStore } from "pinia";
 // api
-import { deleteAccount } from "@/components/api/Accounts.vue";
+import { deleteStaff } from "@/components/api/accounts/Staff.vue";
 // store
 import {
   useDashboardStateManagerStore,
@@ -21,7 +21,8 @@ export const useDeleteStaffStore = defineStore("staff-Staff", {
       const userToDelete = retrieveStaffStore.staffs.find(
         (acc) => acc._id === this.idToDelete,
       );
-      const userPassword = userToDelete ? userToDelete.password : "";
+      const userPassword = userToDelete?.userDetailsId?.userAccountId?.password
+      const password = userPassword || "";
 
       return [
         (value) => {
@@ -30,7 +31,7 @@ export const useDeleteStaffStore = defineStore("staff-Staff", {
         },
         (value) => {
           const trimmedValue = value.trim();
-          return trimmedValue === userPassword || "Password does not match.";
+          return trimmedValue === password || "Password does not match.";
         },
       ];
     },
@@ -53,14 +54,13 @@ export const useDeleteStaffStore = defineStore("staff-Staff", {
       const retrieveStaffStore = useRetrieveStaffStore();
       this.isLoading = true;
       try {
-        const response = await deleteAccount({
+        const response = await deleteStaff({
           id: this.idToDelete,
         });
         if (response) {
-          const updatedStaffsAfterDelete =
-            retrieveStaffStore.staffs.filter(
-              (acc) => acc._id !== this.idToDelete,
-            );
+          const updatedStaffsAfterDelete = retrieveStaffStore.staffs.filter(
+            (acc) => acc._id !== this.idToDelete,
+          );
           retrieveStaffStore.staffs = updatedStaffsAfterDelete;
           dashboardStateManagerStore.snackbar = true;
           dashboardStateManagerStore.snackbarMessage =
@@ -70,10 +70,11 @@ export const useDeleteStaffStore = defineStore("staff-Staff", {
           this.isDeleteStaffModalOpen = false;
         }
       } catch (error) {
+        const errorMessage =
+          error.response.data.message || "Something Error Occur";
         dashboardStateManagerStore.snackbar = true;
-        dashboardStateManagerStore.snackbarMessage =
-          "An error occured while deleting Staff";
-        dashboardStateManagerStore.snackbarColor = "red";
+        dashboardStateManagerStore.snackbarMessage = errorMessage;
+        dashboardStateManagerStore.snackbarColor = "error";
       } finally {
         this.isLoading = false;
       }

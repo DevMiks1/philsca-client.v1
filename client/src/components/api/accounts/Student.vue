@@ -13,71 +13,45 @@ export const retrieveAllStudent = async () => {
   try {
     const response = await axios.get(globalUrl, {
       headers,
-      withCredentials: true, // Include cookies and credentials
+      withCredentials: true, 
 
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching accounts:", error);
+    console.error("Error fetching student:", error);
     throw error;
   }
 };
 
-// export const retrieveUserDB = async ({ _id }) => {
-//   try {
-//     const response = await axios.get(
-//       `${globalUrl}/accounts/retrieve/${_id}`,
-//       {
-//         headers,
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching accounts:", error);
-//     throw error;
-//   }
-// };
-
-export const deleteAccount = async ({ id }) => {
+export const deleteStudent = async ({ id }) => {
   try {
     const response = await axios.delete(`${globalUrl}/${id}`, {
       headers,
+      withCredentials: true
     });
     return response.data; 
   } catch (error) {
-    console.error("Error deleting account:", error);
+    console.error("Error deleting student:", error);
     throw error;
   }
 };
 
-export const updateAccount = async ({ body, id }) => {
+export const updateStudent = async ({ body, id }) => {
   
   try {
     const response = await axios.patch(
       `${globalUrl}/${id}`,
       JSON.stringify(body),
-      { headers }
+      { headers, withCredentials: true }
     );
-    console.log("Update response:", response.data.newData); 
+    
     return response.data; 
   } catch (error) {
-    console.error("Error updating account:", error);
+    console.error("Error updating student:", error);
     throw error;
   }
 };
 
-export const createAccount = async ({ body }) => {
-  try {
-    const response = await axios.post(
-      globalUrl,
-      JSON.stringify(body),
-      { headers }
-    );
-    return response.data; 
-  } catch (error) {
-    console.error("Error creating account:", error);
-    throw error;
-  }
-};
+
 
 </script>

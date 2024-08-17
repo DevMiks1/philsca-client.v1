@@ -1,6 +1,11 @@
 import { defineStore } from "pinia";
+// utility
 import { capitalizeFirstLetter } from "@/components/utility/capitalizeFirstLetter";
+// store
 import { useAuthStore } from "@/components/stores/index";
+// api
+import { retrieveAllFaculty } from "@/components/api/accounts/Faculty.vue";
+
 export const useRetrieveFacultyStore = defineStore("retrieve-faculty", {
   state: () => ({
     faculties: [],
@@ -8,29 +13,30 @@ export const useRetrieveFacultyStore = defineStore("retrieve-faculty", {
   }),
   getters: {
     displayFacultyTable() {
-      const authStore = useAuthStore();
-      const loggedInUserId = authStore.auth?._id;
+      return this.faculties.map((faculty) => {
+        const personnelDetails = faculty.personnelDetailsId
+        const personalInfo = faculty.userDetailsId?.personalInfoId || {};
+        const userAccount = faculty.userDetailsId?.userAccountId || {};
+        const schoolId = userAccount.roleDetailsId?.schoolId || "";
+        const suffix = personalInfo?.suffix
+          ? ` ${capitalizeFirstLetter(personalInfo?.suffix)}`
+          : "";
+        return {
+          ...faculty,
+          position: personnelDetails.position,
+          schoolId: schoolId,
 
-      return this.faculties
-        .filter((faculty) => faculty._id !== loggedInUserId).filter((faculty) => faculty.role === 'faculty') 
-        .map((faculty) => {
-          const suffix = faculty.suffix
-            ? ` ${capitalizeFirstLetter(faculty.suffix)}`
-            : "";
-          return {
-            ...faculty,
-            fullName: `${capitalizeFirstLetter(faculty.firstName)} ${capitalizeFirstLetter(faculty.middleName)} ${capitalizeFirstLetter(faculty.lastName)} ${suffix}`,
-          };
-        });
+          fullName: `${capitalizeFirstLetter(personalInfo?.firstName)} ${capitalizeFirstLetter(personalInfo?.middleName)} ${capitalizeFirstLetter(personalInfo?.lastName)} ${suffix}`,
+        };
+      });
     },
   },
 
   actions: {
     async retrieveAllFaculty() {
       try {
-        const response = await retrieveAllAccount();
-        this.faculties = response;
-        
+        const response = await retrieveAllFaculty();
+        this.faculties = response.data;
       } catch (error) {
         console.log(error);
       }

@@ -13,17 +13,14 @@ export const useAuthStore = defineStore("auth", {
         if (response.token === this.token) {
           this.token = response.token;
           this.auth = response.user.user;
-          console.log(this.auth);
         } else {
           this.clearAuth();
-          console.log("asda");
           this.router.push("/");
         }
       } catch (error) {
         console.log(error);
         this.clearAuth();
-          console.log("asda");
-          this.router.push("/");
+        this.router.push("/");
       }
     },
     clearAuth() {

@@ -18,10 +18,10 @@
         <v-card class="w-60 mt-2 bg-blue-darken-3 rounded-lg">
           <div class="border-bottom mb-3">
             <v-card-text class="py-0 pt-5"
-              ><span class="text-[1rem]">{{`${authStore.auth.firstName}  ${authStore.auth.lastName}`}}</span></v-card-text
+              ><span class="text-[1rem]">{{`${personalInfo.firstName || 'EMPTY'}  ${personalInfo.lastName || 'EMPTY'}`}}</span></v-card-text
             >
             <v-card-subtitle class="pb-5"
-              >{{authStore.auth.role === 'admin' ? 'Administrator' : ''}}</v-card-subtitle
+              >{{roleDetails.role === 'admin' ? 'Administrator' : ''}}</v-card-subtitle
             >
           </div>
 
@@ -76,10 +76,11 @@ import { useLogoutStore, useAuthStore } from "@/components/stores";
 
 const authStore = useAuthStore()
 const logoutStore = useLogoutStore()
-console.log(authStore.auth);
 import { profileItems } from "@/components/json/ProfileItems";
 
-const personalInfo = authStore.auth.personalInfoId 
+const personalInfo = authStore.auth?.personalInfoId || ''
+const userAccountId = authStore.auth?.userAccountId || ''
+const roleDetails = userAccountId?.roleDetailsId || ''
 
 const navigate = (to) => {
   router.push(to);

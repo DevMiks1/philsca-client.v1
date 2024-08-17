@@ -2,11 +2,12 @@
 
 import { defineStore } from "pinia";
 // api
+import { updateStaff } from "@/components/api/accounts/Staff.vue";
+// store
 import {
   useDashboardStateManagerStore,
   useRetrieveStaffStore,
 } from "@/components/stores/index";
-import { updateAccount } from "@/components/api/Accounts.vue";
 export const useEditStaffStore = defineStore("edit-Staff", {
   state: () => ({
     isEditStaffModalOpen: false,
@@ -24,9 +25,9 @@ export const useEditStaffStore = defineStore("edit-Staff", {
     wgt: "",
     sss: "",
     tin: "",
-
     address: "",
     contactNumber: "",
+    contactPersonNumber: "",
     contactPerson: "",
   }),
   getters: {
@@ -39,7 +40,8 @@ export const useEditStaffStore = defineStore("edit-Staff", {
         birthDate: this.birthDate,
         address: this.address,
         contactNumber: `+63${this.contactNumber}`,
-        contactPerson: `+63${this.contactPerson}`,
+        contactPerson: this.contactPerson,
+        contactPersonNumber: `+63${this.contactPersonNumber}`,
         position: this.position,
         designation: this.designation,
         hgt: this.hgt,
@@ -60,6 +62,7 @@ export const useEditStaffStore = defineStore("edit-Staff", {
       this.address = "";
       this.contactNumber = "";
       this.contactPerson = "";
+      this.contactPersonNumber = "";
       this.position = "";
       this.designation = "";
       this.hgt = "";
@@ -76,7 +79,6 @@ export const useEditStaffStore = defineStore("edit-Staff", {
         this.clearStaff;
       } else {
         // Set the idToEdit when opening the modal
-        console.log(id);
         this.idToEdit = id;
       }
     },
@@ -88,42 +90,28 @@ export const useEditStaffStore = defineStore("edit-Staff", {
       const dashboardStateManagerStore = useDashboardStateManagerStore();
       this.isLoading = true;
       try {
-        const StaffContactNumber = retrieveStaffStore.staffs
-          .filter((acc) => acc._id !== this.idToEdit)
-          .map((acc) => acc.contactNumber);
+        const response = await updateStaff({
+          id: this.idToEdit,
+          body: this.editStaff,
+        });
+        if (response) {
+          const updatedStaffs = retrieveStaffStore.staffs.map((acc) =>
+            acc._id === this.idToEdit ? response.data : acc,
+          );
 
-        const existingContactNumber = StaffContactNumber.includes(
-          this.editStaff.contactNumber,
-        );
-        if (existingContactNumber) {
+          retrieveStaffStore.staffs = updatedStaffs;
           dashboardStateManagerStore.snackbar = true;
           dashboardStateManagerStore.snackbarMessage =
-            "contact number is already exist";
-          dashboardStateManagerStore.snackbarColor = "red";
-        } else {
-          const response = await updateAccount({
-            id: this.idToEdit,
-            body: this.editStaff,
-          });
-          if (response) {
-            const updatedStaffs = retrieveStaffStore.staffs.map((acc) =>
-              acc._id === this.idToEdit ? { ...acc, ...this.editStaff } : acc,
-            );
-
-            retrieveStaffStore.staffs = updatedStaffs;
-            dashboardStateManagerStore.snackbar = true;
-            dashboardStateManagerStore.snackbarMessage =
-              "Successfully Edited Staff";
-            dashboardStateManagerStore.snackbarColor = "success";
-            this.isEditStaffModalOpen = false;
-          }
+            "Successfully Edited Staff";
+          dashboardStateManagerStore.snackbarColor = "success";
+          this.isEditStaffModalOpen = false;
         }
       } catch (error) {
-        console.error("Error editing staff:", error);
+        const errorMessage =
+          error.response.data.message || "Something Error Occur";
         dashboardStateManagerStore.snackbar = true;
-            dashboardStateManagerStore.snackbarMessage =
-              "Error editing staff";
-            dashboardStateManagerStore.snackbarColor = "error";
+        dashboardStateManagerStore.snackbarMessage = errorMessage;
+        dashboardStateManagerStore.snackbarColor = "error";
       } finally {
         this.isLoading = false;
       }

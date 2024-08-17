@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
+// utility
 import { capitalizeFirstLetter } from "@/components/utility/capitalizeFirstLetter";
+// store
 import { useAuthStore } from "@/components/stores/index";
+// api
+import { retrieveAllStaff } from "@/components/api/accounts/Staff.vue";
 export const useRetrieveStaffStore = defineStore("staff", {
   state: () => ({
     staffs: [],
@@ -8,29 +12,30 @@ export const useRetrieveStaffStore = defineStore("staff", {
   }),
   getters: {
     displayStaffTable() {
-      const authStore = useAuthStore();
-      const loggedInUserId = authStore.auth?._id;
-
-      return this.staffs
-        .filter((staff) => staff._id !== loggedInUserId).filter((staff) => staff.role === 'staff') 
-        .map((staff) => {
-          const suffix = staff.suffix
-            ? ` ${capitalizeFirstLetter(staff.suffix)}`
-            : "";
-          return {
-            ...staff,
-            fullName: `${capitalizeFirstLetter(staff.firstName)} ${capitalizeFirstLetter(staff.middleName)} ${capitalizeFirstLetter(staff.lastName)} ${suffix}`,
-          };
-        });
+      return this.staffs.map((staff) => {
+        const personnelDetails = staff.personnelDetailsId
+        const personalInfo = staff.userDetailsId?.personalInfoId || {};
+        const userAccount = staff.userDetailsId?.userAccountId || {};
+        const schoolId = userAccount.roleDetailsId?.schoolId || "";
+        const suffix = personalInfo?.suffix
+          ? ` ${capitalizeFirstLetter(personalInfo?.suffix)}`
+          : "";
+        return {
+          ...staff,
+          position: personnelDetails.position,
+          schoolId: schoolId,
+          fullName: `${capitalizeFirstLetter(personalInfo?.firstName)} ${capitalizeFirstLetter(personalInfo?.middleName)} ${capitalizeFirstLetter(personalInfo?.lastName)} ${suffix}`,
+        };
+      });
     },
   },
 
   actions: {
     async retrieveAllStaffs() {
       try {
-        const response = await retrieveAllAccount();
-        this.staffs = response;
-        
+        const response = await retrieveAllStaff();
+        this.staffs = response.data;
+       
       } catch (error) {
         console.log(error);
       }

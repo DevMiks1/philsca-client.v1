@@ -2,13 +2,19 @@
   <div>
     <v-data-table :headers="headers" :search="retrieveStaffStore.search" :items="displayStaffsTable" items-per-page="5">
       <!-- header -->
-      <template v-slot:[`header.schoolid`]="{ column }">
-        <p class="text-uppercase text-[.875rem] font-[500]">{{ column.title }}</p>
+      <template v-slot:[`header.schoolId`]="{ column }">
+        <p class="text-uppercase text-[.875rem] font-[500] text-no-wrap">{{ column.title }}</p>
       </template>
       <template v-slot:[`header.fullName`]="{ column }">
-        <p class="text-uppercase text-[.875rem] font-[500]">{{ column.title }}</p>
+        <p class="text-uppercase text-[.875rem] font-[500] text-no-wrap">{{ column.title }}</p>
+      </template>
+      <template v-slot:[`item.fullName`]="{ item }">
+        <p class=" text-no-wrap">{{ item.fullName }}</p>
       </template>
       <template v-slot:[`header.course`]="{ column }">
+        <p class="text-uppercase text-[.875rem] font-[500] text-no-wrap">{{ column.title }}</p>
+      </template>
+      <template v-slot:[`header.schoolYear`]="{ column }">
         <p class="text-uppercase text-[.875rem] font-[500] text-no-wrap">{{ column.title }}</p>
       </template>
       <template v-slot:[`header.actions`]="{ column }">

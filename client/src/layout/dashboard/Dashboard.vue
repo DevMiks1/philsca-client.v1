@@ -26,7 +26,6 @@ const retrieveFacultyStore = useRetrieveFacultyStore()
 
 
 onMounted(() => {
-
 authStore.authentication()
 retrieveStudentStore.retrieveAllStudents()
 retrieveStaffStore.retrieveAllStaffs()

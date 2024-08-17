@@ -45,7 +45,7 @@ export const useLoginStore = defineStore("login", {
         dashboardStateManagerStore.snackbar = true;
         dashboardStateManagerStore.snackbarMessage = errorMessage;
         dashboardStateManagerStore.snackbarColor = "error";
-        console.log(error);
+       console.log(error)
       } finally {
         this.isLoading = false;
         setTimeout(() => {

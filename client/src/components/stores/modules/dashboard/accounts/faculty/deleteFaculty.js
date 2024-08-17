@@ -2,7 +2,7 @@
 
 import { defineStore } from "pinia";
 // api
-import { deleteAccount } from "@/components/api/Accounts.vue";
+import { deleteFaculty } from "@/components/api/accounts/Faculty.vue";
 // store
 import {
   useDashboardStateManagerStore,
@@ -53,7 +53,7 @@ export const useDeleteFacultyStore = defineStore("delete-faculty", {
       const retrieveFacultyStore = useRetrieveFacultyStore();
       this.isLoading = true;
       try {
-        const response = await deleteAccount({
+        const response = await deleteFaculty({
           id: this.idToDelete,
         });
         if (response) {

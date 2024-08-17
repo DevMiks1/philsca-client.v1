@@ -14,25 +14,27 @@ export const useViewStaffStore = defineStore("view-Staff", {
       const staff = retrieveStaffStore.staffs.find(
         (staff) => staff._id === this.idToView,
       );
+      const personalInfo = staff.userDetailsId?.personalInfoId
 
-      if (staff && staff.birthDate) {
+      if (staff) {
         // Create a new Date object from the ISO string
-        const parsedDate = new Date(staff.birthDate);
+        const parsedDate = new Date(personalInfo.birthDate);
 
         // Verify if the date is valid
         if (!isNaN(parsedDate.getTime())) {
           // Format the date to a readable string
-          staff.formattedBirthDate = parsedDate.toLocaleDateString("en-US", {
+          personalInfo.birthDate = parsedDate.toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
           });
         } else {
-          staff.formattedBirthDate = "Invalid date";
+          personalInfo.birthDate = "Invalid date";
         }
       } else {
-        staff.formattedBirthDate = "EMPTY";
+        personalInfo.birthDate = "EMPTY";
       }
+      
 
       return staff;
     },
@@ -43,6 +45,10 @@ export const useViewStaffStore = defineStore("view-Staff", {
     toggleViewStaffModal({ isModalOpen, id }) {
       this.isViewStaffModalOpen = isModalOpen;
       this.idToView = id;
+
+      if(isModalOpen) {
+        this.viewStaffDetails
+      }
     },
   },
 });

@@ -34,63 +34,18 @@ export const useAccountStore = defineStore("account", {
       const retrieveFacultyStore = useRetrieveFacultyStore();
       const dashboardStateManagerStore = useDashboardStateManagerStore();
       this.isLoading = true;
-      let body;
-
-      if (this.role.toLowerCase() === "student") {
-        body = {
-          firstName: "",
-          middleName: "",
-          suffix: "",
-          lastName: "",
-          email: this.email,
-          password: this.password,
-          isIdIssued: false,
-          picture: "",
-          semesterType: "",
-          schoolYear: "",
-          course: "",
-          role: this.role.toLowerCase(),
-          contactNumber: "",
-          birthDate: "",
-          contactPerson: "",
-          affidavit: "",
-          message: "",
-          address: "",
-          schoolId: this.schoolId,
-        };
-      } else if (
-        this.role.toLowerCase() === "staff" ||
-        this.role.toLowerCase() === "faculty"
-      ) {
-        body = {
-          firstName: "",
-          middleName: "",
-          suffix: "",
-          lastName: "",
-          email: this.email,
-          password: this.password,
-          isIdIssued: false,
-          role: this.role.toLowerCase(),
-          contactNumber: "",
-          birthDate: "",
-          position: "",
-          designation: "",
-          hgt: "",
-          wgt: "",
-          sss: "",
-          tin: "",
-          contactPerson: "",
-          affidavit: "",
-          message: "",
-          address: "",
-          schoolId: this.schoolId,
-        };
-      }
+      const body = {
+        schoolId: this.schoolId,
+        email: this.email,
+        password: this.password,
+        role: this.role.toLowerCase(),
+      };
 
       try {
         const response = await createAccount({ body });
 
         if (this.role.toLowerCase() === "student") {
+          console.log(response.data)
           retrieveStudentStore.students.push(response.data);
         } else if (this.role.toLowerCase() === "staff") {
           retrieveStaffStore.staffs.push(response.data);
@@ -112,7 +67,8 @@ export const useAccountStore = defineStore("account", {
           this.schoolId = "";
         }, 500);
       } catch (error) {
-        const errorMessage = error.response.data.message || "Something Error Occur";
+        const errorMessage =
+          error.response.data.message || "Something Error Occur";
         dashboardStateManagerStore.snackbar = true;
         dashboardStateManagerStore.snackbarMessage = errorMessage;
         dashboardStateManagerStore.snackbarColor = "error";

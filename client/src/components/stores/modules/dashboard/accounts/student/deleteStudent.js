@@ -2,10 +2,9 @@
 
 import { defineStore } from "pinia";
 // api
-import { deleteAccount } from "@/components/api/Accounts.vue";
+import { deleteStudent } from "@/components/api/accounts/Student.vue";
 // store
 import {
-  
   useDashboardStateManagerStore,
   useRetrieveStudentStore,
 } from "@/components/stores/index";
@@ -22,7 +21,8 @@ export const useDeleteStudentStore = defineStore("delete-student", {
       const userToDelete = retrieveStudentStore.students.find(
         (acc) => acc._id === this.idToDelete,
       );
-      const userPassword = userToDelete ? userToDelete.password : "";
+      const userPassword = userToDelete?.userDetailsId?.userAccountId?.password
+      const password = userPassword || "";
 
       return [
         (value) => {
@@ -31,7 +31,7 @@ export const useDeleteStudentStore = defineStore("delete-student", {
         },
         (value) => {
           const trimmedValue = value.trim();
-          return trimmedValue === userPassword || "Password does not match.";
+          return trimmedValue === password || "Password does not match.";
         },
       ];
     },
@@ -42,6 +42,7 @@ export const useDeleteStudentStore = defineStore("delete-student", {
     handleToggleDeleteStudentModal({ isModalOpen, id }) {
       this.isDeleteStudentModalOpen = isModalOpen;
       this.idToDelete = id;
+   
     },
     handleCloseDeleteStudentModal(value) {
       this.isDeleteStudentModalOpen = value;
@@ -54,7 +55,7 @@ export const useDeleteStudentStore = defineStore("delete-student", {
       const retrieveStudentStore = useRetrieveStudentStore();
       this.isLoading = true;
       try {
-        const response = await deleteAccount({
+        const response = await deleteStudent({
           id: this.idToDelete,
         });
         if (response) {
@@ -62,9 +63,7 @@ export const useDeleteStudentStore = defineStore("delete-student", {
             retrieveStudentStore.students.filter(
               (acc) => acc._id !== this.idToDelete,
             );
-          // console.log(updatedStudentsAfterDelete);
           retrieveStudentStore.students = updatedStudentsAfterDelete;
-          // console.log(retrieveStudentStore.students);
           dashboardStateManagerStore.snackbar = true;
           dashboardStateManagerStore.snackbarMessage =
             "Successfully Deleted Student";
@@ -73,12 +72,16 @@ export const useDeleteStudentStore = defineStore("delete-student", {
           this.isDeleteStudentModalOpen = false;
         }
       } catch (error) {
-        dashboardStateManagerStore.snackbar = true;
-        dashboardStateManagerStore.snackbarMessage =
-          "An error occured while deleting student";
-        dashboardStateManagerStore.snackbarColor = "red";
+        const errorMessage =
+        error.response.data.message || "Something Error Occur";
+      dashboardStateManagerStore.snackbar = true;
+      dashboardStateManagerStore.snackbarMessage = errorMessage;
+      dashboardStateManagerStore.snackbarColor = "error";
       } finally {
         this.isLoading = false;
+        setTimeout(() => {
+          dashboardStateManagerStore.snackbar = false;
+        }, 2000)
       }
     },
   },

@@ -9,23 +9,19 @@ export const useRetrieveStudentStore = defineStore("student", {
   }),
   getters: {
     displayStudentTable() {
-      const authStore = useAuthStore();
-
-      return this.students
-        .map((student) => {
-          const personalInfo = student.userDetailsId.personalInfoId
-          const userAccount = student.userDetailsId.userAccountId
-          const schoolId = student.userDetailsId.userAccountId.roleDetailsId.schoolId
-          console.log(schoolId);
-          const suffix = personalInfo.suffix
-            ? ` ${capitalizeFirstLetter(personalInfo.suffix)}`
-            : "";
-          return {
-            ...student,
-            schoolId:schoolId,
-            fullName: `${capitalizeFirstLetter(personalInfo.firstName)} ${capitalizeFirstLetter(personalInfo.middleName)} ${capitalizeFirstLetter(personalInfo.lastName)}${suffix}`,
-          };
-        });
+      return this.students.map((student) => {
+        const personalInfo = student.userDetailsId?.personalInfoId || {};
+        const userAccount = student.userDetailsId?.userAccountId || {};
+        const schoolId = userAccount?.roleDetailsId?.schoolId || "";
+        const suffix = personalInfo?.suffix
+          ? ` ${capitalizeFirstLetter(personalInfo?.suffix)}`
+          : "";
+        return {
+          ...student,
+          schoolId: schoolId,
+          fullName: `${capitalizeFirstLetter(personalInfo?.firstName)} ${capitalizeFirstLetter(personalInfo?.middleName)} ${capitalizeFirstLetter(personalInfo?.lastName)}${suffix}`,
+        };
+      });
     },
   },
 
@@ -34,9 +30,6 @@ export const useRetrieveStudentStore = defineStore("student", {
       try {
         const response = await retrieveAllStudent();
         this.students = response.data;
-        console.log(this.students, 'students');
-        // this.students = response;
-        // console.log(this.users, "Why");
       } catch (error) {
         console.log(error);
       }

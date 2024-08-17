@@ -24,58 +24,62 @@
         <v-container>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">Staff ID</p>
-            <p class="w-[65%] text-[.900rem] font-[400] text-uppercase">{{ viewStaffDetails.schoolId || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400] text-uppercase">{{ role.schoolId || 'EMPTY' }}</p>
 
 
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">Name</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ `${viewStaffDetails.firstName} ${viewStaffDetails.middleName}
-              ${viewStaffDetails.lastName} ${viewStaffDetails.suffix} `|| 'EMPTY'}}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ `${personalInfo.firstName || 'EMPTY'} ${personalInfo.middleName || 'EMPTY'}
+              ${personalInfo.lastName || 'EMPTY'} ${personalInfo.suffix || 'EMPTY'} `|| 'EMPTY'}}</p>
 
 
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">Birthdate</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.formattedBirthDate || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personalInfo.birthDate || 'EMPTY' }}</p>
 
 
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">Position</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.position || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personnelDetails.position || 'EMPTY' }}</p>
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">Designation</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.designation || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personnelDetails.designation || 'EMPTY' }}</p>
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">HGT</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.hgt || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personnelDetails.hgt || 'EMPTY' }}</p>
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">WGT</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.wgt || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personnelDetails.wgt || 'EMPTY' }}</p>
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">SSS</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.sss || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personnelDetails.sss || 'EMPTY' }}</p>
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">TIN</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.tin || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personnelDetails.tin || 'EMPTY' }}</p>
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">Contact Number</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.contactNumber || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personalInfo.contactNumber || 'EMPTY' }}</p>
           </div>
           <div class="flex">
             <p class="w-[35%] text-[.950rem] font-[500]">ContactPerson</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.contactPerson || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personalInfo.contactPerson || 'EMPTY' }}</p>
           </div>
+          <div class="flex">
+            <p class="w-[35%] text-[.950rem] font-[500]">ContactPerson #</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{personalInfo.contactPersonNumber || 'EMPTY'}}</p>
+          </div> 
           <div class="flex ">
             <p class="w-[35%] text-[.950rem] font-[500] ">Address</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.address || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ personalInfo.address || 'EMPTY' }}</p>
           </div>
         </v-container>
         <div class="d-flex border-t-sm pt-5">
@@ -90,11 +94,11 @@
         <v-container>
           <div class="flex ">
             <p class="w-[35%] text-[.950rem] font-[500] ">Email</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.email || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ userAccount.email || 'EMPTY' }}</p>
           </div>
           <div class="flex ">
             <p class="w-[35%] text-[.950rem] font-[500] ">Password</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">{{ viewStaffDetails.password || 'EMPTY' }}</p>
+            <p class="w-[65%] text-[.900rem] font-[400]">{{ userAccount.password || 'EMPTY' }}</p>
           </div>
         </v-container>
       </div>
@@ -111,6 +115,10 @@ import { computed, watch } from "vue";
 const viewStaffStore = useViewStaffStore();
 
 const viewStaffDetails = computed(() => viewStaffStore.viewStaffDetails);
+const personnelDetails = computed(() => viewStaffDetails.value?.personnelDetailsId)
+const personalInfo = computed(() => viewStaffDetails.value?.userDetailsId?.personalInfoId)
+const userAccount = computed(() => viewStaffDetails.value?.userDetailsId?.userAccountId)
+const role = computed(() => userAccount.value?.roleDetailsId)
 
 </script>
 

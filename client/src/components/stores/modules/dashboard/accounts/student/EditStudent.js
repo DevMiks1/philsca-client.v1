@@ -1,14 +1,14 @@
 // src/store/modules/riders.js
 
 import { defineStore } from "pinia";
-// api
+// store
 import {  useDashboardStateManagerStore, useRetrieveStudentStore} from '@/components/stores/index'
-import { updateAccount } from "@/components/api/Accounts.vue";
+// api
+import { updateStudent } from "@/components/api/accounts/Student.vue";
 export const useEditStudentStore = defineStore("edit-student", {
   state: () => ({
     isEditStudentModalOpen: false,
     idToEdit: "",
-    idToEditNumber:null,
     isLoading: false,
     
     firstName: "",
@@ -21,7 +21,8 @@ export const useEditStudentStore = defineStore("edit-student", {
     semesterType: "",
     address: "",
     contactNumber: "",
-    contactPerson:''
+    contactPerson:'',
+    contactPersonNumber:''
   }),
   getters: {
     editStudent() {
@@ -33,10 +34,10 @@ export const useEditStudentStore = defineStore("edit-student", {
         course: this.course,
         birthDate: this.birthDate,
         schoolYear: this.schoolYear,
-        semesterType: this.semesterType,
         address: this.address,
         contactNumber: `+63${this.contactNumber}`,
-        contactPerson: `+63${this.contactPerson}`
+        contactPerson: this.contactPerson,
+        contactPersonNumber: `+63${this.contactPersonNumber}`
       };
     },
   },
@@ -50,10 +51,10 @@ export const useEditStudentStore = defineStore("edit-student", {
       this.birthDate = "";
       this.course = "";
       this.schoolYear = "";
-      this.semesterType = "";
       this.address = "";
       this.contactNumber = "";
       this.contactPerson = "";
+      this.contactPersonNumber = "";
     },
     // function to open edit modal
     handleToggleEditStudentModal({ isModalOpen, id }) {
@@ -66,7 +67,6 @@ export const useEditStudentStore = defineStore("edit-student", {
         // Set the idToEdit when opening the modal
         console.log(id);
         this.idToEdit = id;
-        this.idToEditNumber = id
       }
     },
     handleCloseEditStudentModal(value){
@@ -79,40 +79,38 @@ export const useEditStudentStore = defineStore("edit-student", {
       this.isLoading = true;
       try {
        
-        const studentContactNumber = retrieveStudentStore.students
-          .filter((acc) => acc._id !== this.idToEdit)
-          .map((acc) => acc.contactNumber);
-        
-        const existingContactNumber = studentContactNumber.includes(this.editStudent.contactNumber);
-        if (existingContactNumber) {
-          dashboardStateManagerStore.snackbar = true;
-          dashboardStateManagerStore.snackbarMessage = "contact number is already exist";
-          dashboardStateManagerStore.snackbarColor = "red";
-        } else {
+    
           
-          const response = await updateAccount({
+          const response = await updateStudent({
             id: this.idToEdit, 
             body: this.editStudent,
          
           });
+          
           if (response) {
             const updatedStudents = retrieveStudentStore.students.map((acc) =>
               acc._id === this.idToEdit
-                ? { ...acc, ...this.editStudent }
+                ? response.data
                 : acc,
             );
-
+            console.log(updatedStudents, 'updated')
             retrieveStudentStore.students = updatedStudents;
             dashboardStateManagerStore.snackbar = true;
             dashboardStateManagerStore.snackbarMessage = "Successfully Edited Employee";
             dashboardStateManagerStore.snackbarColor = "green";
             this.isEditStudentModalOpen = false;
           }
-        }
       } catch (error) {
-        console.error("Error editing employee:", error);
+        const errorMessage =
+          error.response.data.message || "Something Error Occur";
+        dashboardStateManagerStore.snackbar = true;
+        dashboardStateManagerStore.snackbarMessage = errorMessage;
+        dashboardStateManagerStore.snackbarColor = "error";
       } finally {
         this.isLoading = false;
+        setTimeout(() => {
+          dashboardStateManagerStore.snackbar = false;
+        }, 2000);
       }
     },
   },

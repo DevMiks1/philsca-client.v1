@@ -2,11 +2,12 @@
 
 import { defineStore } from "pinia";
 // api
+import { updateFaculty } from "@/components/api/accounts/Faculty.vue";
+// store
 import {
   useDashboardStateManagerStore,
   useRetrieveFacultyStore,
 } from "@/components/stores/index";
-import { updateAccount } from "@/components/api/Accounts.vue";
 export const useEditFacultyStore = defineStore("edit-faculty", {
   state: () => ({
     isEditFacultyModalOpen: false,
@@ -24,9 +25,9 @@ export const useEditFacultyStore = defineStore("edit-faculty", {
     wgt: "",
     sss: "",
     tin: "",
-
     address: "",
     contactNumber: "",
+    contactPersonNumber: "",
     contactPerson: "",
   }),
   getters: {
@@ -39,7 +40,8 @@ export const useEditFacultyStore = defineStore("edit-faculty", {
         birthDate: this.birthDate,
         address: this.address,
         contactNumber: `+63${this.contactNumber}`,
-        contactPerson: `+63${this.contactPerson}`,
+        contactPerson: this.contactPerson,
+        contactPersonNumber: `+63${this.contactPersonNumber}`,
         position: this.position,
         designation: this.designation,
         hgt: this.hgt,
@@ -94,35 +96,29 @@ export const useEditFacultyStore = defineStore("edit-faculty", {
         const existingContactNumber = FacultyContactNumber.includes(
           this.editFaculty.contactNumber,
         );
-        if (existingContactNumber) {
-          dashboardStateManagerStore.snackbar = true;
-          dashboardStateManagerStore.snackbarMessage =
-            "contact number is already exist";
-          dashboardStateManagerStore.snackbarColor = "red";
-        } else {
-          const response = await updateAccount({
+   
+          const response = await updateFaculty({
             id: this.idToEdit,
             body: this.editFaculty,
           });
           if (response) {
             const updatedFaculty = retrieveFacultyStore.faculties.map((acc) =>
-              acc._id === this.idToEdit ? { ...acc, ...this.editFaculty } : acc,
+              acc._id === this.idToEdit ? response.data : acc,
             );
 
             retrieveFacultyStore.faculties = updatedFaculty;
             dashboardStateManagerStore.snackbar = true;
             dashboardStateManagerStore.snackbarMessage =
               "Successfully Edited Faculty";
-            dashboardStateManagerStore.snackbarColor = "green";
-            this.isEditStaffModalOpen = false;
+            dashboardStateManagerStore.snackbarColor = "success";
+            this.isEditFacultyModalOpen = false;
           }
-        }
       } catch (error) {
-        console.error("Error editing faculty:", error);
+        const errorMessage =
+          error.response.data.message || "Something Error Occur";
         dashboardStateManagerStore.snackbar = true;
-            dashboardStateManagerStore.snackbarMessage =
-              "Error Editing faculty";
-            dashboardStateManagerStore.snackbarColor = "error";
+        dashboardStateManagerStore.snackbarMessage = errorMessage;
+        dashboardStateManagerStore.snackbarColor = "error";
       } finally {
         this.isLoading = false;
       }

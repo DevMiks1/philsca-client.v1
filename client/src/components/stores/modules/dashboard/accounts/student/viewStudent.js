@@ -14,24 +14,25 @@ export const useViewStudentStore = defineStore("view-student", {
       const student = retrieveStudentStore.students.find(
         (student) => student._id === this.idToView,
       );
+      const personalInfo = student.userDetailsId?.personalInfoId;
 
-      if (student && student.birthDate) {
+      if (student) {
         // Create a new Date object from the ISO string
-        const parsedDate = new Date(student.birthDate);
+        const parsedDate = new Date(personalInfo.birthDate);
 
         // Verify if the date is valid
         if (!isNaN(parsedDate.getTime())) {
           // Format the date to a readable string
-          student.formattedBirthDate = parsedDate.toLocaleDateString("en-US", {
+          personalInfo.birthDate = parsedDate.toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
           });
         } else {
-          student.formattedBirthDate = "Invalid date";
+          personalInfo.birthDate = "Invalid date";
         }
       } else {
-        student.formattedBirthDate = "EMPTY";
+        personalInfo.birthDate = "EMPTY";
       }
 
       return student;
@@ -43,6 +44,10 @@ export const useViewStudentStore = defineStore("view-student", {
     toggleViewStudentModal({ isModalOpen, id }) {
       this.isViewStudentModalOpen = isModalOpen;
       this.idToView = id;
+
+      if (isModalOpen) {
+        this.viewStudentDetails;
+      }
     },
   },
 });
