@@ -1,11 +1,11 @@
 <template>
-  <section class="bg-blue-darken-3 h-[100vh]">
+  <section class="_content bg-blue-darken-3 h-[100vh]">
     <v-container class="h-full py-0">
-      <div class="flex flex-col justify-around h-full">
-        <div class="content">
+      <div class=" flex flex-col justify-around h-full">
+        <div class="">
           <div>
-            <h1 class="pb-5 text-[2rem] font-[600]">Philsca System</h1>
-            <p>
+            <h1 class="pb-5 text-[1.5rem] sm:text-[2rem] font-[600]">Philsca System</h1>
+            <p class="text-[.9rem] sm:text-[1rem]">
               Hi Philsca, we encourage everyone to provide correct information.
               For further questions, please contact the administrator.
             </p>
@@ -48,7 +48,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <div class="mt-[4rem]">
+          <div class="mt-[.5rem]">
             <v-btn
               @click.prevent="loginStore.handleLogin"
               :disabled="!isValidForm"
@@ -109,9 +109,9 @@ const togglePasswordVisibility = () => {
 </script>
 
 <style scoped>
-@media (max-width: 600px) and (min-width: 300px) {
-  .content {
-    height: 25rem;
+/* @media (max-width: 599px) and (min-width: 300px) {
+  ._content {
+    height: 80vh;
   }
-}
+} */
 </style>

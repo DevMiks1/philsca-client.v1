@@ -2,11 +2,11 @@
   <div>
     <Suspense>
       <template #default>
-        <v-row>
-          <v-col cols="12" sm="6" md="4" lg="3" order="2" order-sm="1" class="py-0 px-0 pl-3 bg-white">
+        <v-row no-gutters >
+          <v-col cols="12" sm="5" md="4" lg="3" order="2" order-sm="1" class=" px-0 bg-white">
             <Content />
           </v-col>
-          <v-col cols="12" sm="6" md="8" lg="9" order="1" order-sm="2" class="py-0 px-0">
+          <v-col cols="12" sm="7" md="8" lg="9" order="1" order-sm="2" class=" px-0">
 
             <Background />
           </v-col>

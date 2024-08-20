@@ -13,7 +13,7 @@
     <v-toolbar class="bg-orange-darken-3">
       <v-chip label class="ml-5" prepend-icon="mdi-account-tie">
         
-        <v-card-title> List of Staffs</v-card-title>
+        <v-card-title> List of Faculties</v-card-title>
       </v-chip>
 
       <v-spacer></v-spacer>

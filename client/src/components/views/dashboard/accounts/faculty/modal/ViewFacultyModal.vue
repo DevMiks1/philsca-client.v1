@@ -10,143 +10,223 @@
     >
       <div>
         <v-card-item class="bg-orange-darken-3">
-          <v-card-title>Faculty Details Overview</v-card-title>
+          <v-card-title class="_overview"
+            >Faculty Details Overview</v-card-title
+          >
 
-          <v-card-subtitle>PHILSCA PHILIPPINES</v-card-subtitle>
+          <v-card-subtitle class="_overview-sub"
+            >PHILSCA PHILIPPINES</v-card-subtitle
+          >
         </v-card-item>
         <v-card-item class="border-b-sm mb-5">
-          <v-card-title>Reference ID</v-card-title>
+          <v-card-title class="_reference">Reference ID</v-card-title>
 
           <v-card-subtitle>{{ viewFacultyDetails._id }}</v-card-subtitle>
         </v-card-item>
-        <div class="d-flex">
+        <div class="_chip-parent flex gap-2 sm:gap-5">
           <v-chip
-            class="font-weight-bold text-uppercase mb-5 ml-4"
+            class="font-weight-bold text-uppercase mb-5 ml-3"
             color="primary"
             label
           >
-            personal details
+            <p class="_chip sm:text-[1rem]">personal details</p>
           </v-chip>
 
           <v-chip
-            class="font-weight-bold text-uppercase mb-5 ml-6"
+            class="font-weight-bold text-uppercase mb-5"
             label
             color="primary"
           >
-            philsca Philippines
+            <p class="_chip sm:text-[1rem]">philsca Philippines</p>
           </v-chip>
         </div>
         <v-container>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Staff ID</p>
-            <p class="text-uppercase w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p class="w-[50%] text-[.950rem] font-[500] sm:w-[45%]">Staff ID</p>
+            <p
+              class="text-uppercase w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ role.schoolId || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Name</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              Name
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{
-                `${personalInfo.firstName || "EMPTY"} ${personalInfo.middleName || "EMPTY"}
-              ${personalInfo.lastName || "EMPTY"} ${personalInfo.suffix || "EMPTY"} ` ||
+                `${capitalizeFirstLetter(personalInfo.firstName) || "EMPTY"} ${capitalizeFirstLetter(personalInfo.middleName) || "EMPTY"}
+              ${capitalizeFirstLetter(personalInfo.lastName) || "EMPTY"} ${capitalizeFirstLetter(personalInfo.suffix) || "EMPTY"} ` ||
                 "EMPTY"
               }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Birthdate</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              Birthdate
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ personalInfo.birthDate || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Position</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
-              {{ personnelDetails.position || "EMPTY" }}
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              Position
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
+              {{ capitalizeFirstLetter(personnelDetails.position) || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Designation</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
-              {{ personnelDetails.designation || "EMPTY" }}
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              Designation
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
+              {{
+                capitalizeFirstLetter(personnelDetails.designation) || "EMPTY"
+              }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">HGT</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              HGT
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ personnelDetails.hgt || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">WGT</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              WGT
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ personnelDetails.wgt || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">SSS</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              SSS
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ personnelDetails.sss || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">TIN</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              TIN
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ personnelDetails.tin || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Contact Number</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              Contact Number
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ personalInfo.contactNumber || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">ContactPerson</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
-              {{ personalInfo.contactPerson || "EMPTY" }}
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              ContactPerson
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
+              {{ capitalizeFirstLetter(personalInfo.contactPerson) || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">ContactPerson #</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              ContactPerson #
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
               {{ personalInfo.contactPersonNumber || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Address</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
-              {{ personalInfo.address || "EMPTY" }}
+          <div class="_flex-item-card flex">
+            <p
+              class="_child-item-card w-[50%] text-[.950rem] font-[500] sm:w-[45%]"
+            >
+              Address
+            </p>
+            <p
+              class="_child-item-card w-[50%] text-[.900rem] font-[400] sm:w-[55%]"
+            >
+              {{ capitalizeFirstLetter(personalInfo.address) || "EMPTY" }}
             </p>
           </div>
         </v-container>
-        <div class="d-flex border-t-sm pt-5">
+        <div class="_chip-parent border-t-sm flex gap-2 pt-5">
           <v-chip
-            class="font-weight-bold text-uppercase mb-5 ml-4"
+            class="font-weight-bold text-uppercase mb-5 ml-3"
             color="primary"
             label
           >
-            Credential details
+            <p class="_chip sm:text-[1rem]">Credential details</p>
           </v-chip>
 
           <v-chip
-            class="font-weight-bold text-uppercase mb-5 ml-6"
+            class="font-weight-bold text-uppercase mb-5"
             label
             color="primary"
           >
-            philsca Philippines
+            <p class="_chip sm:text-[1rem]">philsca Philippines</p>
           </v-chip>
         </div>
         <v-container>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Email</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_credentials flex">
+            <p class="w-[50%] text-[.950rem] font-[500] sm:w-[35%]">Email</p>
+            <p class="w-[50%] text-[.900rem] font-[400] sm:w-[65%]">
               {{ userAccount.email || "EMPTY" }}
             </p>
           </div>
-          <div class="flex">
-            <p class="w-[35%] text-[.950rem] font-[500]">Password</p>
-            <p class="w-[65%] text-[.900rem] font-[400]">
+          <div class="_credentials flex">
+            <p class="w-[50%] text-[.950rem] font-[500] sm:w-[35%]">Password</p>
+            <p class="w-[50%] text-[.900rem] font-[400] sm:w-[65%]">
               {{ userAccount.password || "EMPTY" }}
             </p>
           </div>
@@ -157,11 +237,15 @@
 </template>
 
 <script setup>
-// import components
-import { useViewFacultyStore } from "@/components/stores/index";
+// vue
 import { computed } from "vue";
+// utility
+import { capitalizeFirstLetter } from "@/components/utility/capitalizeFirstLetter";
+// store
+import { useViewFacultyStore } from "@/components/stores/index";
+// invoke store
 const viewFacultyStore = useViewFacultyStore();
-
+// computed
 const viewFacultyDetails = computed(() => viewFacultyStore.viewFacultyDetails);
 const personnelDetails = computed(
   () => viewFacultyDetails.value?.personnelDetailsId,

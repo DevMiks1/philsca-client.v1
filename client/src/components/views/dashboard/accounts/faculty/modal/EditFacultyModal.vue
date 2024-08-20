@@ -6,22 +6,22 @@
     >
       <v-card
         v-if="editFacultyStore.isEditFacultyModalOpen"
-        max-width="500px"
+        max-width="550px"
         max-height="600px"
         class="y-axis-scrollbar mx-auto"
       >
-        <v-container>
-          <div class="flex">
-            <p class="text-[1.3rem] font-[500]">Edit Account</p>
-            <v-spacer></v-spacer>
-            <v-btn
-              variant="tonal"
-              @click="editFacultyStore.handleCloseEditFacultyModal(false)"
-              ><v-icon>mdi-close</v-icon></v-btn
-            >
-          </div>
-        </v-container>
-        <v-card-text>
+        <div class="bg-blue-darken-3 flex items-center px-3 py-3">
+          <p class="text-[1.1rem] font-[500] sm:text-[1.3rem]">Edit Account</p>
+          <v-spacer></v-spacer>
+          <v-btn
+            variant="tonal"
+            size="small"
+            @click="editFacultyStore.handleCloseEditFacultyModal(false)"
+            ><v-icon>mdi-close</v-icon></v-btn
+          >
+        </div>
+
+        <v-container fluid>
           <v-form @submit.prevent="editFacultyStore.handleEditFaculty">
             <v-row>
               <v-col cols="12" sm="6">
@@ -31,7 +31,7 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.7rem] sm:-mt-[0rem]">
+                <div class="-mt-[1rem] sm:-mt-[0rem]">
                   <v-text-field
                     v-model="editFacultyStore.lastName"
                     label="Lastname"
@@ -40,7 +40,7 @@
               </v-col>
 
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.middleName"
                     label="Middlename"
@@ -48,7 +48,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.suffix"
                     label="Suffix"
@@ -56,7 +56,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.position"
                     label="Position"
@@ -64,7 +64,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.designation"
                     label="Designation"
@@ -72,7 +72,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.hgt"
                     label="HGT"
@@ -80,7 +80,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.wgt"
                     label="WGT"
@@ -88,7 +88,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.sss"
                     label="SSS"
@@ -96,7 +96,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.tin"
                     label="TIN"
@@ -104,7 +104,7 @@
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="-mt-[1.8rem]">
+                <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editFacultyStore.birthDate"
                     label="Datebirth"
@@ -150,18 +150,16 @@
               </v-col>
             </v-row>
 
-            <v-card-actions>
-              <v-btn
-                type="submit"
-                block
-                class="bg-orange-darken-3"
-                :loading="editFacultyStore.isLoading"
-                :disabled="!isValidForm"
-                >Edit</v-btn
-              >
-            </v-card-actions>
+            <v-btn
+              type="submit"
+              block
+              class="bg-orange-darken-3"
+              :loading="editFacultyStore.isLoading"
+              :disabled="!isValidForm"
+              >Edit</v-btn
+            >
           </v-form>
-        </v-card-text>
+        </v-container>
       </v-card>
     </v-dialog>
   </div>

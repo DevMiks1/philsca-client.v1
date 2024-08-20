@@ -3,23 +3,19 @@ import { logout } from "@/components/api/Logout.vue";
 import { useAuthStore } from "../auth/auth";
 
 export const useLogoutStore = defineStore("logout", {
-  state: () => ({
-    
-  }),
+  state: () => ({}),
   getters: {},
   actions: {
     async handleLogout() {
-      const authStore = useAuthStore()
+      const authStore = useAuthStore();
       try {
         const response = await logout();
-      
-        localStorage.removeItem("token");
-        authStore.token = null;
+
+        authStore.clearAuth()
         this.router.push("/");
-        
       } catch (error) {
         console.log(error);
-      } 
+      }
     },
   },
 });

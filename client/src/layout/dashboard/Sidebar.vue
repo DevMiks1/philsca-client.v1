@@ -2,7 +2,7 @@
   <v-navigation-drawer v-model="isSidebarOpen" class="bg-blue-darken-3">
     <div class=" border-b  px-5 py-5 ">
 
-      <div class="border-bottom">
+      <div>
         <!-- <v-card-text class="py-0"
               ><span class="text-[1rem] text-uppercase">owtosked</span></v-card-text
             > -->
@@ -23,49 +23,40 @@
 </template>
 
 <script setup>
-// ############################################################## import vue #############################################################
-import { ref, onMounted } from "vue";
-// ############################################################## import vue #############################################################
-
-// ############################################################## import router #############################################################
+// vue
+import { ref, onMounted, watch } from "vue";
+// route
 import { useRouter, useRoute } from "vue-router";
-// ############################################################## import router #############################################################
-
-// ############################################################## json #############################################################
+// json
 import { adminSidebarItems } from "@/components/json/dashboard/SidebarItems";
-// ############################################################## json #############################################################
-
-// ############################################################## helper #############################################################
+// helper
 import { isSidebarOpen } from "@/components/helper/ToggleSidebar";
-// ############################################################## helper #############################################################
 
-// ############################################################## router #############################################################
 const router = useRouter();
 const route = useRoute();
-// ############################################################## router #############################################################
 
-// ############################################################## ref #############################################################
 const selectedItem = ref(0);
-// ############################################################## ref #############################################################
+const updateSelectedItem = () => {
+  const currentRoute = route.path;
+  const index = adminSidebarItems.findIndex((item) => item.to === currentRoute);
 
-// ############################################################## function #############################################################
+  selectedItem.value = index !== -1 ? index : ''; // Default to the first item
+};
 const navigate = (to, index) => {
   selectedItem.value = index;
   router.push(to);
 };
-// ############################################################## function #############################################################
+watch(
+  () => route.path,
+  () => {
+    updateSelectedItem();
+  },
+  { immediate: true },
+);
 
-// ############################################################## lifecycle hooks #############################################################
 onMounted(() => {
-  const currentRoute = route.path;
-  const index = adminSidebarItems.findIndex((item) => item.to === currentRoute);
-  if (index !== -1) {
-    selectedItem.value = index;
-  } else {
-    selectedItem.value = 0; // Default to the first item
-  }
+  updateSelectedItem();
 });
-// ############################################################## lifecycle hooks #############################################################
 </script>
 
 <style>

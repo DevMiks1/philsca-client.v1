@@ -26,7 +26,13 @@ export {useRetrieveFacultyStore} from "@/components/stores/modules/dashboard/acc
 export {useEditFacultyStore} from "@/components/stores/modules/dashboard/accounts/faculty/editFaculty"
 export {useDeleteFacultyStore} from "@/components/stores/modules/dashboard/accounts/faculty/deleteFaculty"
 export {useViewFacultyStore} from "@/components/stores/modules/dashboard/accounts/faculty/viewFaculty"
-
+// admin
+export {useEditAdminStore} from "@/components/stores/modules/dashboard/accounts/admin/editAdmin"
 // auth
 export {useAuthStore} from "@/components/stores/modules/auth/auth"
 export {useLogoutStore} from "@/components/stores/modules/logout/logout"
+// profile
+export {useProfileStore} from "@/components/stores/modules/dashboard/accounts/profile"
+// id list
+export {useIdListStore} from "@/components/stores/modules/dashboard/id-list/idList"
+

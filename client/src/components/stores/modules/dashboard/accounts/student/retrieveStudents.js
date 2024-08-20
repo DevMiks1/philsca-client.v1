@@ -6,6 +6,7 @@ export const useRetrieveStudentStore = defineStore("student", {
   state: () => ({
     students: [],
     search: "",
+    isLoading: false,
   }),
   getters: {
     displayStudentTable() {
@@ -27,11 +28,15 @@ export const useRetrieveStudentStore = defineStore("student", {
 
   actions: {
     async retrieveAllStudents() {
+      this.isLoading = true
       try {
         const response = await retrieveAllStudent();
         this.students = response.data;
+
       } catch (error) {
         console.log(error);
+      } finally {
+        this.isLoading = false
       }
     },
   },

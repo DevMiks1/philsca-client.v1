@@ -25,6 +25,7 @@ export const useEditFacultyStore = defineStore("edit-faculty", {
     wgt: "",
     sss: "",
     tin: "",
+    picture: '',
     address: "",
     contactNumber: "",
     contactPersonNumber: "",
@@ -44,6 +45,7 @@ export const useEditFacultyStore = defineStore("edit-faculty", {
         contactPersonNumber: `+63${this.contactPersonNumber}`,
         position: this.position,
         designation: this.designation,
+        picture : this.picture,
         hgt: this.hgt,
         wgt: this.wgt,
         sss: this.sss,
@@ -64,6 +66,7 @@ export const useEditFacultyStore = defineStore("edit-faculty", {
       this.contactPerson = "";
       this.position = "";
       this.designation = "";
+      this.picture = '';
       this.hgt = "";
       this.wgt = "";
       this.sss = "";

@@ -21,18 +21,18 @@
 import { defineAsyncComponent } from "vue";
 // store
 import { useDashboardStateManagerStore } from "@/components/stores/index";
+// reusable
+import Snackbar from "@/components/reusable/Snackbar.vue";
 // invoke store
 const dashboardStateManagerStore = useDashboardStateManagerStore();
 const Accounts = defineAsyncComponent(
     () => import("@/components/views/dashboard/accounts/Accounts.vue"),
 );
-// reusable
-const Snackbar = defineAsyncComponent(
-    () => import("@/components/reusable/Snackbar.vue"),
-);
+
 const Loading = defineAsyncComponent(
     () => import("@/components/reusable/Loading.vue"),
 );
+
 </script>
 
 <style></style>

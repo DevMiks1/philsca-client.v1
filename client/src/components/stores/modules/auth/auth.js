@@ -4,15 +4,20 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     auth: null,
     token: localStorage.getItem("token") || null,
+    isLoading: false,
   }),
-  getters: {},
+  getters: {
+    
+  },
   actions: {
     async authentication() {
+      this.isLoading = true;
       try {
         const response = await auth();
         if (response.token === this.token) {
           this.token = response.token;
-          this.auth = response.user.user;
+          this.auth = response.user;
+          console.log(this.auth);
         } else {
           this.clearAuth();
           this.router.push("/");
@@ -21,6 +26,8 @@ export const useAuthStore = defineStore("auth", {
         console.log(error);
         this.clearAuth();
         this.router.push("/");
+      } finally {
+        this.isLoading = false;
       }
     },
     clearAuth() {

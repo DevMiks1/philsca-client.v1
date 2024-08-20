@@ -45,7 +45,6 @@ export const useAccountStore = defineStore("account", {
         const response = await createAccount({ body });
 
         if (this.role.toLowerCase() === "student") {
-          console.log(response.data)
           retrieveStudentStore.students.push(response.data);
         } else if (this.role.toLowerCase() === "staff") {
           retrieveStaffStore.staffs.push(response.data);

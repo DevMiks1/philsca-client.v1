@@ -1,27 +1,60 @@
 <template>
   <div>
     <v-dialog
-      v-model="editStaffStore.isEditStaffModalOpen"
+      v-model="profileStore.isStaffEditModalOpen"
       transition="dialog-bottom-transition"
     >
       <v-card
-        v-if="editStaffStore.isEditStaffModalOpen"
-        max-width="550px"
+        v-if="profileStore.isStaffEditModalOpen"
+        max-width="500px"
         max-height="600px"
         class="y-axis-scrollbar mx-auto"
       >
         <div class="bg-blue-darken-3 flex items-center px-3 py-3">
-          <p class="text-[1.3rem] font-[500]">Edit Account</p>
+          <p class="text-[1.1rem] font-[500] sm:text-[1.3rem]">Edit Profile</p>
           <v-spacer></v-spacer>
           <v-btn
             variant="tonal"
             size="small"
-            @click="editStaffStore.handleCloseEditStaffModal(false)"
+            @click="
+              profileStore.hancleCloseProfileModal(false, roleDetails?.role)
+            "
             ><v-icon>mdi-close</v-icon></v-btn
           >
         </div>
+        <div class="relative pt-[1rem] text-center">
+          <v-avatar size="120" color="info" class="avatar-no-overflow">
+            <template v-if="editStaffStore.picture">
+              <v-img
+                alt="John"
+                class="rounded-circle"
+                :src="editStaffStore.picture || profileStore.images[0]"
+              ></v-img>
+            </template>
+            <template v-else>
+              <v-icon icon="mdi-account-circle" size="100"></v-icon>
+            </template>
+
+            <div class="absolute bottom-0 left-[5rem]">
+              <v-btn
+                icon="mdi-pencil"
+                size="x-small"
+                class="bg-blue-lighten-1 text-white"
+                @click="triggerFileInput"
+              ></v-btn>
+              <!-- <v-icon size="small">mdi-pencil</v-icon> -->
+              <v-file-input
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                class="d-none"
+                @change="handleFileChange"
+              />
+            </div>
+          </v-avatar>
+        </div>
         <v-container class="fluid">
-          <v-form @submit.prevent="editStaffStore.handleEditStaff">
+          <v-form @submit.prevent="profileStore.handleSubmit">
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
@@ -115,7 +148,6 @@
                 <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editStaffStore.contactNumber"
-                    :rules="accountStateManagerStore.contactNumberRules"
                     label="Contact Number"
                     prefix="+63"
                   ></v-text-field>
@@ -133,7 +165,6 @@
                 <div class="-mt-[1rem]">
                   <v-text-field
                     v-model="editStaffStore.contactPersonNumber"
-                    :rules="accountStateManagerStore.contactNumberRules"
                     prefix="+63"
                     label="ContactPerson #"
                   ></v-text-field>
@@ -153,8 +184,7 @@
               type="submit"
               block
               class="bg-orange-darken-3"
-              :loading="editStaffStore.isLoading"
-              :disabled="!isValidForm"
+              :loading="profileStore.isLoading"
               >Edit</v-btn
             >
           </v-form>
@@ -166,65 +196,104 @@
 
 <script setup>
 // vue
-import { computed, watch } from "vue";
+import { computed, ref, watch } from "vue";
+// store
+import {
+  useAuthStore,
+  useProfileStore,
+  useEditAdminStore,
+} from "@/components/stores";
+
+// invoke store
+const authStore = useAuthStore();
+const profileStore = useProfileStore();
+
+
+const personalInfo = computed(
+  () => authStore.auth?.userDetailsId?.personalInfoId,
+);
+const userAccount = computed(
+  () => authStore.auth?.userDetailsId?.userAccountId,
+);
+
+const roleDetails = computed(() => userAccount.value?.roleDetailsId);
+
 // store
 import {
   useEditStaffStore,
-  useRetrieveStaffStore,
   useAccountStateManagerStore,
 } from "@/components/stores/index";
 
 // invoke store
 const editStaffStore = useEditStaffStore();
-const retrieveStaffStore = useRetrieveStaffStore();
 const accountStateManagerStore = useAccountStateManagerStore();
+const fileInput = ref(null);
+
+const triggerFileInput = () => {
+  if (fileInput.value) {
+    fileInput.value.click(); // Programmatically trigger the file input
+  } else {
+    console.error("File input reference is null");
+  }
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      // Set the preview URL in the store
+      editStaffStore.picture = e.target.result;
+      profileStore.images = [file]; // Store file objects
+    };
+
+    reader.readAsDataURL(file); // Convert the file to a base64 string
+  }
+};
 
 // computed
-const isValidForm = computed(() => {
-  return (
-    accountStateManagerStore.contactNumberRules.every(
-      (rule) => rule(editStaffStore.contactNumber) === true,
-    ) &&
-    accountStateManagerStore.contactNumberRules.every(
-      (rule) => rule(editStaffStore.contactPersonNumber) === true,
-    )
-  );
-});
+
 // watch
 watch(
-  () => editStaffStore.idToEdit,
+  () => profileStore.idToEdit,
   (id) => {
-    const staffToEdit =
-      retrieveStaffStore.staffs.find((staff) => staff._id === id) || {};
+    const profileToEdit = authStore.auth;
 
-    const personalInfo = staffToEdit?.userDetailsId?.personalInfoId;
-    const personnelDetails = staffToEdit?.personnelDetailsId;
+
+    const personalInfo = profileToEdit?.userDetailsId?.personalInfoId;
+    const personnelDetails = profileToEdit?.personnelDetailsId;
     const contactNumberSlice = personalInfo?.contactNumber
       ? personalInfo?.contactNumber.slice(3)
       : "";
-    const contactPersonSlice = staffToEdit.contactPerson
-      ? staffToEdit.contactPerson.slice(3)
+    const contactPersonSlice = personalInfo.contactPerson
+      ? personalInfo.contactPerson.slice(3)
       : "";
     const contactPersonNumberSlice = personalInfo?.contactPersonNumber
       ? personalInfo?.contactPersonNumber.slice(3)
       : "";
 
-    editStaffStore.firstName = personalInfo.firstName || "";
-    editStaffStore.lastName = personalInfo.lastName || "";
-    editStaffStore.middleName = personalInfo.middleName || "";
-    editStaffStore.position = personnelDetails.position || "";
-    editStaffStore.designation = personnelDetails.designation || "";
-    editStaffStore.hgt = personnelDetails.hgt || "";
-    editStaffStore.wgt = personnelDetails.wgt || "";
-    editStaffStore.sss = personnelDetails.sss || "";
-    editStaffStore.tin = personnelDetails.tin || "";
+    editStaffStore.firstName = personalInfo?.firstName || "";
+    editStaffStore.lastName = personalInfo?.lastName || "";
+    editStaffStore.middleName = personalInfo?.middleName || "";
+    editStaffStore.position = personnelDetails?.position || "";
+    editStaffStore.designation = personnelDetails?.designation || "";
+    editStaffStore.hgt = personnelDetails?.hgt || "";
+    editStaffStore.wgt = personnelDetails?.wgt || "";
+    editStaffStore.sss = personnelDetails?.sss || "";
+    editStaffStore.tin = personnelDetails?.tin || "";
     editStaffStore.contactPerson = contactPersonSlice || "";
     editStaffStore.contactPersonNumber = contactPersonNumberSlice || "";
-    editStaffStore.address = personalInfo.address || "";
-    editStaffStore.birthDate = personalInfo.birthDate || "";
+    editStaffStore.address = personalInfo?.address || "";
+    editStaffStore.picture = personalInfo?.picture || "";
+    editStaffStore.birthDate = personalInfo?.birthDate || "";
     editStaffStore.contactNumber = contactNumberSlice || "";
   },
 );
 </script>
 
-<style scoped></style>
+<style scoped>
+.avatar-no-overflow {
+  overflow: visible;
+}
+</style>

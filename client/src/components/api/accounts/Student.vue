@@ -37,7 +37,7 @@ export const deleteStudent = async ({ id }) => {
 };
 
 export const updateStudent = async ({ body, id }) => {
-  
+  console.log(id);
   try {
     const response = await axios.patch(
       `${globalUrl}/${id}`,

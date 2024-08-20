@@ -4,21 +4,21 @@
       <div class="md:hidden">
         <v-card-item class="bg-orange-darken-3">
   
-          <v-text-field v-model="retrieveStaffStore.search" density="compact" label="Search"
+          <v-text-field v-model="retrieveStudentStore.search" density="compact" label="Search"
             prepend-inner-icon="mdi-magnify" variant="solo" flat hide-details single-line></v-text-field>
         </v-card-item>
       </div>
   
       <!-- For medium and larger screens -->
       <v-toolbar class="bg-orange-darken-3">
-        <v-chip label class="ml-5" prepend-icon="mdi-briefcase-account">
+        <v-chip label class="ml-5" prepend-icon="mdi-school">
           
-          <v-card-title> List of Staffs</v-card-title>
+          <v-card-title> List of Students</v-card-title>
         </v-chip>
   
         <v-spacer></v-spacer>
         <div class="mr-5 hidden w-[300px] md:block">
-          <v-text-field v-model="retrieveStaffStore.search" density="compact" label="Search"
+          <v-text-field v-model="retrieveStudentStore.search" density="compact" label="Search"
             prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line></v-text-field>
         </div>
   
@@ -34,8 +34,8 @@
   <script setup>
   // import store
   import {
-    useRetrieveStaffStore,
+    useRetrieveStudentStore,
   } from "@/components/stores/index";
   
-  const retrieveStaffStore = useRetrieveStaffStore()
+  const retrieveStudentStore = useRetrieveStudentStore()
   </script>

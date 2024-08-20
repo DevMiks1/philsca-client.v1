@@ -26,6 +26,7 @@ export const useEditStaffStore = defineStore("edit-Staff", {
     sss: "",
     tin: "",
     address: "",
+    picture: '',
     contactNumber: "",
     contactPersonNumber: "",
     contactPerson: "",
@@ -44,6 +45,7 @@ export const useEditStaffStore = defineStore("edit-Staff", {
         contactPersonNumber: `+63${this.contactPersonNumber}`,
         position: this.position,
         designation: this.designation,
+        picture: this.picture,
         hgt: this.hgt,
         wgt: this.wgt,
         sss: this.sss,
@@ -65,6 +67,7 @@ export const useEditStaffStore = defineStore("edit-Staff", {
       this.contactPersonNumber = "";
       this.position = "";
       this.designation = "";
+      this.picture = '';
       this.hgt = "";
       this.wgt = "";
       this.sss = "";

@@ -12,7 +12,7 @@ export const useAccountStateManagerStore = defineStore(
           (value) => value.trim() !== "" || "Contact Number must not be empty",
           (value) =>
             /^[0-9]{10}$/.test(value) ||
-            "Contact number must be exactly 10 digits long and contain only numbers.",
+            " must be 10 digits and numbers only.",
           (value) =>
             value.startsWith("9") ||
             "Contact number must start with the digit 9.",

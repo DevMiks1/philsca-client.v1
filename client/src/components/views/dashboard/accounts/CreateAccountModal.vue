@@ -33,6 +33,7 @@
 
               <v-col cols="12" class="-mt-5">
                 <v-text-field
+                density="comfortable"
                   label="Email Address"
                   v-model="accountStore.email"
                   :rules="accountStateManagerStore.emailRules"
@@ -42,6 +43,7 @@
 
               <v-col cols="12" class="-mt-5">
                 <v-text-field
+                density="comfortable"
                   label="Password"
                   v-model="accountStore.password"
                   :rules="accountStateManagerStore.passwordRules"
@@ -53,7 +55,7 @@
                 ></v-text-field>
               </v-col>
 
-              <v-col cols="12" class="-mt-5">
+              <v-col cols="12" class="-mt-3">
                 <v-select
                   :items="role"
                   density="comfortable"

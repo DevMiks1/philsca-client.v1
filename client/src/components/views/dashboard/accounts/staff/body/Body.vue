@@ -11,11 +11,11 @@
       <template v-slot:[`item.fullName`]="{ item }">
         <p class=" text-no-wrap">{{ item.fullName }}</p>
       </template>
-      <template v-slot:[`header.course`]="{ column }">
+      <template v-slot:[`header.position`]="{ column }">
         <p class="text-uppercase text-[.875rem] font-[500] text-no-wrap">{{ column.title }}</p>
       </template>
-      <template v-slot:[`header.schoolYear`]="{ column }">
-        <p class="text-uppercase text-[.875rem] font-[500] text-no-wrap">{{ column.title }}</p>
+      <template v-slot:[`item.position`]="{ item }">
+        <p class=" text-no-wrap">{{ item.position }}</p>
       </template>
       <template v-slot:[`header.actions`]="{ column }">
         <p class="text-uppercase text-[.875rem] font-[500]">{{ column.title }}</p>

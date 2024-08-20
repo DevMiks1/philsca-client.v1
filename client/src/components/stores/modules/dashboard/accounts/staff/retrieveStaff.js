@@ -22,7 +22,7 @@ export const useRetrieveStaffStore = defineStore("staff", {
           : "";
         return {
           ...staff,
-          position: personnelDetails.position,
+          position: `${capitalizeFirstLetter(personnelDetails.position)}`,
           schoolId: schoolId,
           fullName: `${capitalizeFirstLetter(personalInfo?.firstName)} ${capitalizeFirstLetter(personalInfo?.middleName)} ${capitalizeFirstLetter(personalInfo?.lastName)} ${suffix}`,
         };
